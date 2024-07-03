@@ -26,7 +26,7 @@ namespace WPFTaskList2
             get { return ToDoList; }
             set 
             { 
-                ToDoList2 = value;
+                ToDoList = value;
                 OnPropertyChanged();
             }
         }
@@ -41,8 +41,8 @@ namespace WPFTaskList2
             ToDoList2 = new List<ToDo>();
 
             ToDoList2.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
-            ToDoList2.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
-            ToDoList2.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
+            ToDoList2.Add(new ToDo("Дело 2", "Описание", new DateTime(2024, 01, 10)));
+            ToDoList2.Add(new ToDo("Дело 3", "Описание", new DateTime(2024, 01, 10)));
 
             listToDo.ItemsSource = ToDoList2;
         }
