@@ -9,33 +9,58 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFTaskList2.src;
+using System.ComponentModel;
+using System.Collections.Specialized;
 
 namespace WPFTaskList2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged //уведомлять на изменение свойств, имеет в себе делегат
     {
-        public List<ToDo> ToDoList;
+        private List<ToDo> ToDoList;
+
+        public List<ToDo> ToDoList2
+        {
+            get { return ToDoList; }
+            set 
+            { 
+                ToDoList2 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int CountDone { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            ToDoList = new List<ToDo>();
+            DataContext = this;
+            ToDoList2 = new List<ToDo>();
 
-            ToDoList.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
-            ToDoList.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
-            ToDoList.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
+            ToDoList2.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
+            ToDoList2.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
+            ToDoList2.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
 
-            listToDo.ItemsSource = ToDoList;
+            listToDo.ItemsSource = ToDoList2;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged; //делаем делегат, чтобы не проверять действие через цикл
+        public void OnPropertyChanged() //вызываем событие на любые изменения ту ду листа
+        {
+            CountDone = ToDoList2.Where(e=> e.Done == true).ToList().Count;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ToDoList2"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CountDone"));
         }
 
         private void DeleteJob (object sender, RoutedEventArgs e)
         {
-            ToDoList.Remove(listToDo.SelectedItem as ToDo);
+            ToDoList2.Remove(listToDo.SelectedItem as ToDo);
             listToDo.ItemsSource = null;
-            listToDo.ItemsSource = ToDoList;
+            listToDo.ItemsSource = ToDoList2;
+            OnPropertyChanged();
         }
 
         private void OpenWindow(object sender, RoutedEventArgs e)
@@ -50,6 +75,7 @@ namespace WPFTaskList2
             if (listToDo.SelectedItem != null)
             {
                 (listToDo.SelectedItem as ToDo).Done = true;
+                OnPropertyChanged();
             }
         }
 
@@ -58,12 +84,14 @@ namespace WPFTaskList2
             if (listToDo.SelectedItem != null)
             {
                 (listToDo.SelectedItem as ToDo).Done = false;
+                OnPropertyChanged();
             }
         }
 
         
     }
 
+    // ----------------------------------- Стили --------------------------------------------
 
     // Стили Style - это коллекция значений свойств, которые могут применяться к элементу.
     // Система стилей впф играет ту же роль, ктору. играет стандарт каскадных таблиц стилей (CCS) в HTML разметке.
@@ -81,4 +109,17 @@ namespace WPFTaskList2
     // - Property - указывают на свойство, к которому будет применяться данный сеттер
     // - Value - устанавливает значение
 
+    //-------------------------------------- Триггеры ----------------------------------------------------
+
+    // Триггеры связываются со стилями через коллекцию Style.Triggers
+    //      - Trigger - простейшая форма триггеров. Только для одного действия. Он следит за изменением в свойстве в зависимости и затем использует средство установки для изменений стиля
+    //      - MultiTrigger - Мультитриггер может сделать несколько действий - Поддерживает проверку множества условий. Этот триггер вступает в дейтсвие, только если удовлетворены все заданные условия
+    //      - DataTrigger - работает с привязкой данных. ОН следит за изменением в любых связанных данных
+    //      - MultiDataTrigger - объединяет множество триггеров данных
+    //      - EventTrigger - Триггер события - применяет анимацию, когда возникает соответствующее событие
+
+    // Простой триггер модифицирует указанные свойства, когда др свойство элемента изменяется согласно установленным правилам
+    // (типо выделить цветом кнопку или область, наведение курсора мыши, пока не нажмешь tab)
+    // 
+    // 
 }

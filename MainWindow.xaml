@@ -8,7 +8,28 @@
         Icon="Images\icon.png"
         Background="#FFFDFAF1"
         Title="Список дел" Height="450" Width="400">
-        
+
+    <Window.Resources>
+        <Style x:Key="DataGridStyle" TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="CanUserDeleteRows" Value="False" />
+            <Setter Property="HeadersVisibility" Value="None" />
+            <Setter Property="RowBackground">
+                <Setter.Value>
+                    <SolidColorBrush Color="#FFFDFAF1" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="AlternatingRowBackground">
+                <Setter.Value>
+                    <SolidColorBrush Color="#FFFFFFFF" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        </Style>
+
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition  Width="*" />
@@ -21,14 +42,14 @@
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
 
-        <TextBlock FontSize="26" TextAlignment="Left" Margin="12">Список дел</TextBlock>
+        <TextBlock Style="{StaticResource HeaderStyle}" TextAlignment="Left" Margin="12">Список дел</TextBlock>
 
         <Button HorizontalAlignment="Right" Click="OpenWindow" MaxWidth="50" Margin="12" Padding="12 0" Background="#5EBEC4"
                 Grid.Column="1" Grid.Row="0">
             <Image Source="Images\add.png" Width="20" Height="15" />
         </Button>
 
-        <DataGrid IsReadOnly="True" Grid.ColumnSpan="2" Margin="12 0" x:Name="listToDo" Background="#FDF5DF" Grid.Row="1" 
+        <DataGrid Style="{StaticResource DataGridStyle}" IsReadOnly="True" Grid.ColumnSpan="2" Margin="12 0" x:Name="listToDo" Background="#FDF5DF" Grid.Row="1" 
                   AutoGenerateColumns="False" GridLinesVisibility="Horizontal">
 
             <DataGrid.Columns>
@@ -60,7 +81,21 @@
                     <TextBlock Text="{Binding Description}" Padding="12" Background="AliceBlue"></TextBlock>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
-            
+
         </DataGrid>
+
+        <ProgressBar Foreground="#5EBEC4" Grid.Row="2" Grid.ColumnSpan="2" Margin="12 " Minimum="0" 
+                     Maximum="{Binding Path=ToDoList.Count, Mode=OneWay}" 
+                     Value="{Binding CpuntDone, Mode=OneWay}"></ProgressBar>
+
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Path=CountDone, Mode=OneWay}"></TextBlock>
+            <TextBlock Text=" / "></TextBlock>
+            <TextBlock Text="{Binding Path=ToDoList.Count, Mode=OneWay}"></TextBlock>
+        </WrapPanel>
+
     </Grid>
+
+    
+
 </Window>

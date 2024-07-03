@@ -4,6 +4,25 @@
              xmlns:local="clr-namespace:WPFTaskList2"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#5EBEC4" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="FontFamily" Value="Cascadia Mono" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="BorderBrush" Value="#5EBEC4" />
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="HeaderStyle">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Foreground" Value="#5EBEC4" />
+            <Setter Property="FontFamily" Value="Cascadia Mono" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        
     </Application.Resources>
 </Application>
