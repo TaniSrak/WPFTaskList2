@@ -19,14 +19,14 @@ namespace WPFTaskList2
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged //уведомлять на изменение свойств, имеет в себе делегат
     {
-        private List<ToDo> ToDoList;
+        private List<Todo> _todoList;
 
-        public List<ToDo> ToDoList2
+        public List<Todo> TodoList
         {
-            get { return ToDoList; }
+            get { return _todoList; }
             set 
             { 
-                ToDoList = value;
+                _todoList = value;
                 OnPropertyChanged();
             }
         }
@@ -38,28 +38,28 @@ namespace WPFTaskList2
             InitializeComponent();
 
             DataContext = this;
-            ToDoList2 = new List<ToDo>();
+            TodoList = new List<Todo>();
 
-            ToDoList2.Add(new ToDo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
-            ToDoList2.Add(new ToDo("Дело 2", "Описание", new DateTime(2024, 01, 10)));
-            ToDoList2.Add(new ToDo("Дело 3", "Описание", new DateTime(2024, 01, 10)));
+            TodoList.Add(new Todo("Дело 1", "Описание", new DateTime(2024, 01, 10)));
+            TodoList.Add(new Todo("Дело 2", "Описание", new DateTime(2024, 01, 10)));
+            TodoList.Add(new Todo("Дело 3", "Описание", new DateTime(2024, 01, 10)));
 
-            listToDo.ItemsSource = ToDoList2;
+            listToDo.ItemsSource = TodoList;
         }
 
         public event PropertyChangedEventHandler PropertyChanged; //делаем делегат, чтобы не проверять действие через цикл
         public void OnPropertyChanged() //вызываем событие на любые изменения ту ду листа
         {
-            CountDone = ToDoList2.Where(e=> e.Done == true).ToList().Count;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ToDoList2"));
+            CountDone = TodoList.Where(e=> e.Done == true).ToList().Count;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TodoList"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CountDone"));
         }
 
         private void DeleteJob (object sender, RoutedEventArgs e)
         {
-            ToDoList2.Remove(listToDo.SelectedItem as ToDo);
+            TodoList.Remove((sender as Button).DataContext as Todo);
             listToDo.ItemsSource = null;
-            listToDo.ItemsSource = ToDoList2;
+            listToDo.ItemsSource = TodoList;
             OnPropertyChanged();
         }
 
@@ -74,7 +74,7 @@ namespace WPFTaskList2
         {
             if (listToDo.SelectedItem != null)
             {
-                (listToDo.SelectedItem as ToDo).Done = true;
+                ((sender as CheckBox).DataContext as Todo).Done = true;
                 OnPropertyChanged();
             }
         }
@@ -83,7 +83,7 @@ namespace WPFTaskList2
         {
             if (listToDo.SelectedItem != null)
             {
-                (listToDo.SelectedItem as ToDo).Done = false;
+                ((sender as CheckBox).DataContext as Todo).Done = false;
                 OnPropertyChanged();
             }
         }

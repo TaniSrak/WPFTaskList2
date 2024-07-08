@@ -33,7 +33,7 @@ namespace WPFTaskList2
 
         private void AddJob(object sender, RoutedEventArgs e)
         {
-            (this.Owner as MainWindow).ToDoList2.Add(new src.ToDo(titleToDo.Text, descriptionToDo.Text, dateToDo.SelectedDate.Value));
+            (this.Owner as MainWindow).TodoList.Add(new src.Todo(titleToDo.Text, descriptionToDo.Text, dateToDo.SelectedDate.Value));
 
             titleToDo.Text = "";
             descriptionToDo.Text = "Описания нет";

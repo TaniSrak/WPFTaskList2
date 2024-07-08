@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace WPFTaskList2.src
 {
-    public class ToDo
+    public class Todo
     {
         public string? Title { get; set; }
         public string? Description { get; set; }
         public bool Done { get; set; }
 
         public DateTime Date { get; set; }
-        public ToDo(string title, string description, DateTime date) 
+        public Todo(string title, string description, DateTime date) 
         { 
             Title = title;
             Description = description;

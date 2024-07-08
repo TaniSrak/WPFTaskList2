@@ -14,10 +14,12 @@
 
     <Window.Resources>
         <Style TargetType="DatePicker" x:Key="PickerStyle">
+            
             <Setter Property="SelectedDateFormat" Value="Long"/>
             <Setter Property="BorderThickness" Value="1.5"/>
             <Setter Property="BorderBrush" Value="#5EBEC4"/>
             <Setter Property="Background" Value="White"/>
+            
             <Setter Property="CalendarStyle">
                 <Setter.Value>
                     <Style TargetType="Calendar">
@@ -28,6 +30,16 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="DatePickerTextBox">
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#FFFFFAD6"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
     
     <Grid>
